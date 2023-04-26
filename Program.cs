@@ -6,6 +6,10 @@ class Graph{
     private int _sourceNode = -1;
     private int[,] _information;
     private int[,] _adjacencyMatrix;
+    private int[,] _transposedMatrix;
+
+    private List<int> _visitedNodes = new List<int>();
+    private List<int> _unvisitedNodes = new List<int>();
     public string FileName{
         get{ return _fileName; }
         set{ _fileName = value; }
@@ -17,9 +21,11 @@ class Graph{
         _sourceNode = sourceNode;
 
         _adjacencyMatrix = new int[_nodesNumber, _nodesNumber]; // Need to initialize it
+        _transposedMatrix = new int[_nodesNumber, _nodesNumber]; // Need to initialize it
         _information = new int[3, _nodesNumber];
 
         FillMatrix();
+        TransposeMatrix();
     }
 
 
@@ -35,9 +41,20 @@ class Graph{
             for(int character = 0; character < characters.Length; character ++){
                 _adjacencyMatrix[nodeNumber, character] = int.Parse(characters[character]);
             }
+            _unvisitedNodes.Add(nodeNumber);
             nodeNumber ++;
         }
     }
+
+    private void TransposeMatrix(){
+        for(int row = 0; row < _nodesNumber; row ++){
+            for(int column = 0; column < _nodesNumber; column ++){
+                _transposedMatrix[column, row] = _adjacencyMatrix[row, column];
+            }
+        }
+    }
+
+
 
     public override string ToString()
     {
@@ -71,16 +88,33 @@ class Graph{
         }
 
         _information[1, _sourceNode] = 0; //Distance from source node to source node is 0
+        int accumulatedDistance = _information[0, _sourceNode]; // Current accumulated distance
+        Console.WriteLine($"Source: {_sourceNode} Current distance:  {accumulatedDistance}");
+        PrintNodeStatus();
 
-        for(int row = 0; row < _nodesNumber; row ++){ /// Go through all of the nodes
-            int selectedNumber = _adjacencyMatrix[row,0];
-            Console.WriteLine($"Column: {0} RowNumber: {row} Value: {selectedNumber}");
+        int selectedNode = _sourceNode;
+        for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes
+            int edgeDistance = _transposedMatrix[0,node]; // TODO: Change 0 so it is the currently looked at node
 
-            if(_adjacencyMatrix[0,row] != 0){
-                Console.WriteLine($"Column: {0} RowNumber: {row} Value: {selectedNumber}");
+            if(_transposedMatrix[0,node] != 0){ // If the selected node connects to another one, we check them
+                int newDistance = accumulatedDistance + edgeDistance;
+                int currentDistance = _information[1, node];
+
+                if( currentDistance == -1 || newDistance < currentDistance){ // We change the information of the current Distance of getting to the node to the accumulated Distance plus the current edge's Distance ONLY if this would be smaller than the current saved distance and the currently saved distance is not -1 (which would make it infinity)
+                    _information[1, node] = newDistance;
+                    _information[2,node] = selectedNode; // Change the last node before this node to the current node we are going from // TODO: Change so that it does not only use the source node
+                } 
+                
+                Console.WriteLine($"Column: {0} NodeNumber: {node} Value: {edgeDistance}");
             }
-            if(row == _sourceNode) continue; // The distance between source node and the soucr node is 0
+            // if(node == _sourceNode) continue; // The distance between source node and the soucr node is 0
         }
+
+        _unvisitedNodes.Remove(selectedNode); // TOOD: Change to currently looked at node
+            _visitedNodes.Add(selectedNode); // TODO: Same
+
+        PrintInformation();
+        PrintNodeStatus();
     }
 
     private void PrintInformation(){
@@ -93,6 +127,19 @@ class Graph{
             Console.WriteLine(_letters[i] + " | " + row + "| ");
             row = "";
         }
+    }
+
+    private void PrintNodeStatus(){
+        string visitedNodes = "";
+        string unvisitedNodes = "";
+        for(int i = 0; i < _visitedNodes.Count; i ++){
+            visitedNodes = visitedNodes + _visitedNodes[i];
+        }
+
+        for(int i = 0; i < _unvisitedNodes.Count; i ++){
+            unvisitedNodes = unvisitedNodes + _unvisitedNodes[i] + " ";
+        }
+        Console.WriteLine($"Visited Nodes: {visitedNodes} Unvisited Nodes: {unvisitedNodes}");
     }
 }
 
