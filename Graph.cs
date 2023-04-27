@@ -5,19 +5,23 @@ class Graph{
     private double[,] _information;
     private int[,] _matrix;
 
-    public Graph(int[,] generatedMatrix, int nodesNumber, int sourceNode, List<int> unvisitedNodes){ // TODO: Generated unvisited nodes 
+    public Graph(int[,] generatedMatrix, int nodesNumber, int sourceNode){ // TODO: Generated unvisited nodes 
         _matrix = generatedMatrix;
         _nodesNumber = nodesNumber;
         _sourceNode = sourceNode;
-        _unvisitedNodes = unvisitedNodes;
 
         _information = new double[2, _nodesNumber];
+        InitializeUnvisitedNodes();
     }
 
     private List<int> _visitedNodes = new List<int>();
     private List<int> _unvisitedNodes = new List<int>();
 
-
+    private void InitializeUnvisitedNodes(){
+        for(int i = 0; i < _nodesNumber; i ++){
+            _unvisitedNodes.Add(i);
+        }
+    }
     public override string ToString()
     {
         string rowString = "";

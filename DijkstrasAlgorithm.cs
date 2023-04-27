@@ -1,8 +1,8 @@
 class DijkstrasAlgorithm{
     private Graph? graph;
 
-    public void CreateGraph(int[,] generatedMatrix, int nodesNumber, int sourceNode, List<int> unvisitedNodes){
-        graph = new Graph(generatedMatrix, nodesNumber, sourceNode, unvisitedNodes);
+    public void CreateGraph(int[,] generatedMatrix, int nodesNumber, int sourceNode){
+        graph = new Graph(generatedMatrix, nodesNumber, sourceNode);
         graph.Algorithm();
     }
 

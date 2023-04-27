@@ -1,11 +1,10 @@
 ﻿class Program{
     static private DijkstrasAlgorithm algorithm = new DijkstrasAlgorithm();
-    static private List<int> _unvisitedNodes = new List<int>();
     static void Main(string[] args){
         algorithm = new DijkstrasAlgorithm();
         int[,] generatedMatrix = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
 
-        algorithm.CreateGraph(generatedMatrix, int.Parse(args[1]), int.Parse(args[2]), _unvisitedNodes);
+        algorithm.CreateGraph(generatedMatrix, int.Parse(args[1]), int.Parse(args[2]));
     }
 
     static private int[,] ReadMatrixInput(string fileName, int nodesNumber, int sourceNode){
@@ -15,7 +14,6 @@
         string[] characters;
         int[] row = new int[nodesNumber];
         int[,] generatedMatrix = new int[nodesNumber, nodesNumber];
-        List<int> unvisitedNodes = new List<int>();
         int nodeNumber = 0;
         while( (rowString = stream.ReadLine()) is not null){
             characters = rowString.Split(" ");
@@ -23,11 +21,8 @@
                 // generatedMatrix[nodeNumber, character] = int.Parse(characters[character]);
                 generatedMatrix[character, nodeNumber] = int.Parse(characters[character]);
             }
-            unvisitedNodes.Add(nodeNumber);
             nodeNumber ++;
         }
-
-        _unvisitedNodes = unvisitedNodes;
         return generatedMatrix;
     }
 
