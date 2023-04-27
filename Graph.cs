@@ -5,7 +5,6 @@ class Graph{
     private int _sourceNode = -1;
     private double[,] _information;
     private int[,] _adjacencyMatrix;
-    private int[,] _transposedMatrix;
 
     private List<int> _visitedNodes = new List<int>();
     private List<int> _unvisitedNodes = new List<int>();
@@ -14,49 +13,16 @@ class Graph{
         set{ _fileName = value; }
     }
 
-    public Graph(string fileName, int nodesNumber, int sourceNode){
+    public Graph(int[,] generatedMatrix, List<int> unvisitedNodes, int nodesNumber, int sourceNode){
         _nodesNumber = nodesNumber;
-        _fileName = fileName;
         _sourceNode = sourceNode;
-
-        _adjacencyMatrix = new int[_nodesNumber, _nodesNumber]; // Need to initialize it
-        _transposedMatrix = new int[_nodesNumber, _nodesNumber]; // Need to initialize it
+        _adjacencyMatrix = generatedMatrix;
         _information = new double[2, _nodesNumber];
+        _unvisitedNodes = unvisitedNodes;
         // _information[0] = Node number
         // _information[1] = Current known shortest distance
         // -information[2] = Last Node visited for this node
-
-        FillMatrix();
-        TransposeMatrix();
     }
-
-
-    private void FillMatrix(){
-        StreamReader stream = new StreamReader(_fileName);
-
-        string? rowString;
-        string[] characters;
-        int[] row = new int[_nodesNumber];
-        int nodeNumber = 0;
-        while( (rowString = stream.ReadLine()) is not null){
-            characters = rowString.Split(" ");
-            for(int character = 0; character < characters.Length; character ++){
-                _adjacencyMatrix[nodeNumber, character] = int.Parse(characters[character]);
-            }
-            _unvisitedNodes.Add(nodeNumber);
-            nodeNumber ++;
-        }
-    }
-
-    private void TransposeMatrix(){
-        for(int row = 0; row < _nodesNumber; row ++){
-            for(int column = 0; column < _nodesNumber; column ++){
-                _transposedMatrix[column, row] = _adjacencyMatrix[row, column];
-            }
-        }
-    }
-
-
 
     public override string ToString()
     {
@@ -125,7 +91,7 @@ class Graph{
             Console.WriteLine($"MIN DIST NODE: {minDistNode}");
             
             for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes, to find which ones the selected node (which is the min node) is connected to
-                int dist = _transposedMatrix[minDistNode,node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
+                int dist = _adjacencyMatrix[minDistNode,node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
                 
                 if(dist != 0){ // If the selected node connects to another one, we check them
                     double newDistance = _information[0, minDistNode] + dist; // The new distance will be the information on the current node's accumulated distance (which is the current information on the distance column of the information, and the selected node) plus the distance between the minimum node and the checked node
