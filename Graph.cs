@@ -123,7 +123,7 @@ class Graph{
 
         PrintNodeStatus();
 
-        while(_unvisitedNodes.Count >= 0){ // While there are nodes to visit
+        while(_unvisitedNodes.Count > 0){ // While there are nodes to visit
             Console.WriteLine(_unvisitedNodes.Count);
             int minDistNode = MinNodeDist();
             Console.WriteLine($"MIN DIST NODE: {minDistNode}");

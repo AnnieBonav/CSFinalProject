@@ -18,6 +18,4 @@ class Program{
         Graph testGraph = new Graph("TestMatrix.txt", 5, _sourceNode);
         testGraph.Algorithm();
     }
-
-    
 }
