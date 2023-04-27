@@ -93,9 +93,11 @@ class Graph{
         PrintNodeStatus();
 
         int selectedNode = _sourceNode;
+        int nextNode; // Determined by which one has the smaller weight after checking all of the current nodes possibilities
+        int leastDistance; // The currently checked node with the least distance. I save it so I know which will be the next node
         for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes
             int edgeDistance = _transposedMatrix[0,node]; // TODO: Change 0 so it is the currently looked at node
-
+            
             if(_transposedMatrix[0,node] != 0){ // If the selected node connects to another one, we check them
                 int newDistance = accumulatedDistance + edgeDistance;
                 int currentDistance = _information[1, node];
@@ -103,6 +105,10 @@ class Graph{
                 if( currentDistance == -1 || newDistance < currentDistance){ // We change the information of the current Distance of getting to the node to the accumulated Distance plus the current edge's Distance ONLY if this would be smaller than the current saved distance and the currently saved distance is not -1 (which would make it infinity)
                     _information[1, node] = newDistance;
                     _information[2,node] = selectedNode; // Change the last node before this node to the current node we are going from // TODO: Change so that it does not only use the source node
+                    if(newDistance < leastDistance){
+                        leastDistance = newDistance;
+                        nextNode = node;
+                    }
                 } 
                 
                 Console.WriteLine($"Column: {0} NodeNumber: {node} Value: {edgeDistance}");
@@ -111,7 +117,10 @@ class Graph{
         }
 
         _unvisitedNodes.Remove(selectedNode); // TOOD: Change to currently looked at node
-            _visitedNodes.Add(selectedNode); // TODO: Same
+        _visitedNodes.Add(selectedNode); // TODO: Same
+
+        // CHECK WHICH NODE TO GO
+
 
         PrintInformation();
         PrintNodeStatus();
