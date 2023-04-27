@@ -40,24 +40,19 @@ class Graph{
         get{ return _nodesNumber; }
     }
 
-    private int MinNodeDist(){ // slectedNode is the node from
-        Console.WriteLine("Minimum");
-        int minDistNode = -1;
-        double minimumDistance = double.PositiveInfinity;
-        for(int node = 0; node < _nodesNumber; node ++){ // Go through all of the nodes, to find which ones has the minimum accumulated distance
-            if(_visitedNodes.Contains(node)){
-                Console.WriteLine("Contains");
+    private int MinNodeDist(){
+        int minDistNode = -1; // I make it undefined, so if no nodes are found I return -1 and I can work with that
+        double minDistance = double.PositiveInfinity; // This will always be larger than the distance we are checking
+        for(int node = 0; node < _nodesNumber; node ++){ // Go through all of the nodes, trying to find the one that has not been visited, with the lowest distance
+            if(_visitedNodes.Contains(node)){ // If the node has been visited, it is discarded
                 continue;
-
             }
-            double dist = _information[0, node];
-            if(dist < minimumDistance){
-                Console.WriteLine("Is lower");
-                minimumDistance = dist;
+            double dist = _information[0, node]; // The distance we care about is the none-checked nodes
+            if(dist < minDistance){ // If it is lower than the currently stored minDistance, then it will become the new minDIstance
+                minDistance = dist;
                 minDistNode = node;
             }
         }
-        Console.WriteLine($"MIN DIST NODE: {minDistNode}");
         return minDistNode;
     }
 
