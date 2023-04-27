@@ -57,30 +57,24 @@ class Graph{
     }
 
     public void Algorithm(){
-        // Initialize values
-        _information[0, _sourceNode] = 0;
-        _information[1, _sourceNode] = _sourceNode;
-
-        Console.WriteLine(this.ToString());
         for(int i = 0; i < _nodesNumber; i ++){
             if(i != _sourceNode){
                 _information[0, i] = double.PositiveInfinity;
-                _information[1, i] = -1; // -1 is undefined
+                _information[1, i] = -1; // -1 means undefined
+            }else{
+                _information[0, _sourceNode] = 0;
+                _information[1, _sourceNode] = _sourceNode;
             }
         }
 
-        PrintNodeStatus();
-
-        while(_unvisitedNodes.Count > 0){ // While there are nodes to visit
-            Console.WriteLine(_unvisitedNodes.Count);
+        while(_unvisitedNodes.Count > 0){ // Do while there are nodes to still visit
             int minDistNode = MinNodeDist();
             if(minDistNode == -1){ // This means all of the remaining nodes cannot be reached, so the weights stay the same and I just ened my program
                 break;
             }
-            Console.WriteLine($"MIN DIST NODE: {minDistNode}");
             
-            for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes, to find which ones the selected node (which is the min node) is connected to
-                int dist = _matrix[minDistNode,node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
+            for(int node = 0; node < _nodesNumber; node ++){ // Go through all of the nodes, to find which ones the selected node (which is the min node) is connected to
+                int dist = _matrix[minDistNode, node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
                 
                 if(dist != 0){ // If the selected node connects to another one, we check them
                     double newDistance = _information[0, minDistNode] + dist; // The new distance will be the information on the current node's accumulated distance (which is the current information on the distance column of the information, and the selected node) plus the distance between the minimum node and the checked node
@@ -94,11 +88,9 @@ class Graph{
             }
             _unvisitedNodes.Remove(minDistNode);
             _visitedNodes.Add(minDistNode);
-            PrintNodeStatus();
-            PrintInformation();
         }
 
-        Console.WriteLine("FINAL SHIT");
+        Console.WriteLine("FINAL RESULTS");
         PrintInformation();
         PrintNodeStatus();
     }
@@ -119,7 +111,7 @@ class Graph{
         string visitedNodes = "";
         string unvisitedNodes = "";
         for(int i = 0; i < _visitedNodes.Count; i ++){
-            visitedNodes = visitedNodes + _visitedNodes[i];
+            visitedNodes = visitedNodes + _visitedNodes[i] + " ";
         }
 
         for(int i = 0; i < _unvisitedNodes.Count; i ++){
