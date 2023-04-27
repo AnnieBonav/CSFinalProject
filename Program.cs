@@ -1,8 +1,7 @@
 ﻿class Program{
     static private DijkstrasAlgorithm algorithm = new DijkstrasAlgorithm();
     static void Main(string[] args){
-        // FileName, nodesAmount, SourceNode
-        // dotnet run TestMatrix.txt 5 0
+        
         if(args.Length >= 3){
             algorithm = new DijkstrasAlgorithm(args[0], int.Parse(args[1]), int.Parse(args[2]));
         }else{
