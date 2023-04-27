@@ -1,28 +1,22 @@
 class Graph{
-    private string[] _letters = {"A", "B", "C", "D", "E"};
-    private int _nodesNumber;
-    private string _fileName = "TestMatrix.txt";
+    private string[] _letters = {"A", "B", "C", "D", "E"}; // JUst dont save here
+    private int _nodesNumber = -1;
     private int _sourceNode = -1;
     private double[,] _information;
-    private int[,] _adjacencyMatrix;
+    private int[,] _matrix;
+
+    public Graph(int[,] generatedMatrix, int nodesNumber, int sourceNode, List<int> unvisitedNodes){ // TODO: Generated unvisited nodes 
+        _matrix = generatedMatrix;
+        _nodesNumber = nodesNumber;
+        _sourceNode = sourceNode;
+        _unvisitedNodes = unvisitedNodes;
+
+        _information = new double[2, _nodesNumber];
+    }
 
     private List<int> _visitedNodes = new List<int>();
     private List<int> _unvisitedNodes = new List<int>();
-    public string FileName{
-        get{ return _fileName; }
-        set{ _fileName = value; }
-    }
 
-    public Graph(int[,] generatedMatrix, List<int> unvisitedNodes, int nodesNumber, int sourceNode){
-        _nodesNumber = nodesNumber;
-        _sourceNode = sourceNode;
-        _adjacencyMatrix = generatedMatrix;
-        _information = new double[2, _nodesNumber];
-        _unvisitedNodes = unvisitedNodes;
-        // _information[0] = Node number
-        // _information[1] = Current known shortest distance
-        // -information[2] = Last Node visited for this node
-    }
 
     public override string ToString()
     {
@@ -30,18 +24,14 @@ class Graph{
         string completeMatrix = "";
         for(int column = 0; column < _nodesNumber; column ++){
             for(int row = 0; row < _nodesNumber; row ++){
-                rowString = rowString + " " + _adjacencyMatrix[column, row].ToString();
+                rowString = rowString + " " + _matrix[column, row].ToString();
             }
             completeMatrix = completeMatrix + "\n" + rowString;
             rowString = "";
         }
         return completeMatrix;
     }
-    public int[,] AdjacencyMatrix{
-        get{ return _adjacencyMatrix; }
-        set{ _adjacencyMatrix = value; }
-    }
-    
+
     public int NodesNumber{
         get{ return _nodesNumber; }
     }
@@ -91,7 +81,7 @@ class Graph{
             Console.WriteLine($"MIN DIST NODE: {minDistNode}");
             
             for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes, to find which ones the selected node (which is the min node) is connected to
-                int dist = _adjacencyMatrix[minDistNode,node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
+                int dist = _matrix[minDistNode,node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
                 
                 if(dist != 0){ // If the selected node connects to another one, we check them
                     double newDistance = _information[0, minDistNode] + dist; // The new distance will be the information on the current node's accumulated distance (which is the current information on the distance column of the information, and the selected node) plus the distance between the minimum node and the checked node

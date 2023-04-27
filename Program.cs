@@ -1,24 +1,20 @@
 ﻿class Program{
     static private DijkstrasAlgorithm algorithm = new DijkstrasAlgorithm();
+    static private List<int> _unvisitedNodes = new List<int>();
     static void Main(string[] args){
-        
-        if(args.Length >= 3){
-            algorithm = new DijkstrasAlgorithm(args[0], int.Parse(args[1]), int.Parse(args[2]));
-        }else{
-            algorithm = new DijkstrasAlgorithm();
-        }
+        algorithm = new DijkstrasAlgorithm();
+        int[,] generatedMatrix = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
 
-        ReadMatrixInput();        
-        algorithm.CreateGraph();
+        algorithm.CreateGraph(generatedMatrix, int.Parse(args[1]), int.Parse(args[2]), _unvisitedNodes);
     }
 
-    static private void ReadMatrixInput(){
-        StreamReader stream = new StreamReader(algorithm.FileName);
+    static private int[,] ReadMatrixInput(string fileName, int nodesNumber, int sourceNode){
+        StreamReader stream = new StreamReader(fileName);
 
         string? rowString;
         string[] characters;
-        int[] row = new int[algorithm.NodesNumber];
-        int[,] generatedMatrix = new int[algorithm.NodesNumber, algorithm.NodesNumber];
+        int[] row = new int[nodesNumber];
+        int[,] generatedMatrix = new int[nodesNumber, nodesNumber];
         List<int> unvisitedNodes = new List<int>();
         int nodeNumber = 0;
         while( (rowString = stream.ReadLine()) is not null){
@@ -31,8 +27,8 @@
             nodeNumber ++;
         }
 
-        algorithm.UnvisitedNodes = unvisitedNodes;
-        algorithm.GeneratedMatrix = generatedMatrix;
+        _unvisitedNodes = unvisitedNodes;
+        return generatedMatrix;
     }
 
     // static private void TransposeMatrix(){
