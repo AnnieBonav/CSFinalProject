@@ -1,11 +1,16 @@
 class Graph{
     private string _name = "";
+    private int _nodesNumber = -1;
+    private int _sourceNode = -1;
+    private Information[] _information;
+    private int[,] _matrix;
+    private List<int> _visitedNodes = new List<int>();
+    private List<int> _unvisitedNodes = new List<int>();
+
     public string Name{
         get { return _name; }
         set { _name = value; }
     }
-    private int _nodesNumber = -1;
-    private int _sourceNode = -1;
 
     public int NodesNumber{
         get{ return _nodesNumber; }
@@ -14,12 +19,10 @@ class Graph{
         get{ return _sourceNode; }
         set{ _sourceNode = value; }
     }
-    private Information[] _information;
 
     public Information[] Information{
         get{ return _information; }
     }
-    private int[,] _matrix;
 
     public int[,] Matrix{
         get{ return _matrix; }
@@ -32,12 +35,6 @@ class Graph{
     public List<int> VisitedNodes{
         get {return _visitedNodes; }
     }
-
-    public void VisitNode(int node){ // Used to remove an unvisited node and add it
-        _unvisitedNodes.Remove(node);
-        _visitedNodes.Add(node);
-    }
-
     public Graph(int[,] generatedMatrix, int nodesNumber, int sourceNode, string name){ // TODO: Generated unvisited nodes 
         _matrix = generatedMatrix;
         _nodesNumber = nodesNumber;
@@ -51,14 +48,17 @@ class Graph{
         InitializeUnvisitedNodes();
     }
 
-    private List<int> _visitedNodes = new List<int>();
-    private List<int> _unvisitedNodes = new List<int>();
+    public void VisitNode(int node){ // Used to remove an unvisited node and add it
+        _unvisitedNodes.Remove(node);
+        _visitedNodes.Add(node);
+    }
 
     private void InitializeUnvisitedNodes(){
         for(int i = 0; i < _nodesNumber; i ++){
             _unvisitedNodes.Add(i);
         }
     }
+    
     public override string ToString()
     {
         string rowString = "";

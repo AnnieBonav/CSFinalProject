@@ -42,7 +42,6 @@
         while( (rowString = stream.ReadLine()) is not null){
             characters = rowString.Split(" ");
             for(int character = 0; character < characters.Length; character ++){
-                // generatedMatrix[nodeNumber, character] = int.Parse(characters[character]);
                 generatedMatrix[character, nodeNumber] = int.Parse(characters[character]);
             }
             nodeNumber ++;
