@@ -40,7 +40,6 @@ class DijkstrasAlgorithm{
         for(int i = 0; i < nodesNumber; i ++){
             if(i != sourceNode){
                 information[i].Distance = double.PositiveInfinity;
-                //information[i].NodesPath = "-1"; // -1 means undefined
             }else{
                 information[sourceNode].Distance = 0;
                 information[sourceNode].NodesPath = sourceNode.ToString();
