@@ -14,9 +14,9 @@ class Graph{
         get{ return _sourceNode; }
         set{ _sourceNode = value; }
     }
-    private double[,] _information;
+    private Information[] _information;
 
-    public double[,] Information{
+    public Information[] Information{
         get{ return _information; }
     }
     private int[,] _matrix;
@@ -44,7 +44,10 @@ class Graph{
         _sourceNode = sourceNode;
         _name = name;
 
-        _information = new double[2, _nodesNumber];
+        _information = new Information[_nodesNumber];
+        for(int i = 0; i < _nodesNumber; i ++){
+            _information[i] = new Information();
+        }
         InitializeUnvisitedNodes();
     }
 

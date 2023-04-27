@@ -2,9 +2,11 @@
     static private DijkstrasAlgorithm algorithm = new DijkstrasAlgorithm();
     static void Main(string[] args){
         algorithm = new DijkstrasAlgorithm();
+        // int[,] generatedMatrixInput = ReadMatrixInput("TestMatrix.txt", 5, 0);
         int[,] generatedMatrixInput = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
         int[,] generatedMatrix = ReadMatrixInput("OtherExample.txt", 9, 0); // TODO: Get node numbers automatically
 
+        // algorithm.CreateGraph(generatedMatrixInput,5, 0, "InputGraph");
         algorithm.CreateGraph(generatedMatrixInput, int.Parse(args[1]), int.Parse(args[2]), "InputGraph");
         algorithm.CreateGraph(generatedMatrix, 9, 0, "SuperCoolGraph");
 
