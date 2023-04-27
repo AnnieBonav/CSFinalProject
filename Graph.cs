@@ -119,6 +119,9 @@ class Graph{
         while(_unvisitedNodes.Count > 0){ // While there are nodes to visit
             Console.WriteLine(_unvisitedNodes.Count);
             int minDistNode = MinNodeDist();
+            if(minDistNode == -1){ // This means all of the remaining nodes cannot be reached, so the weights stay the same and I just ened my program
+                break;
+            }
             Console.WriteLine($"MIN DIST NODE: {minDistNode}");
             
             for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes, to find which ones the selected node (which is the min node) is connected to
@@ -137,8 +140,10 @@ class Graph{
             _unvisitedNodes.Remove(minDistNode);
             _visitedNodes.Add(minDistNode);
             PrintNodeStatus();
+            PrintInformation();
         }
 
+        Console.WriteLine("FINAL SHIT");
         PrintInformation();
         PrintNodeStatus();
     }
