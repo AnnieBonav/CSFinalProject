@@ -1,5 +1,3 @@
-// HOW DO YOU CHOOSE SEED
-
 class DijkstrasAlgorithm{
     private string[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"}; // JUst dont save here
     private List<Graph> graphs = new List<Graph>();
