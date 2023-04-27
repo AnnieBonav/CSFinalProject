@@ -16,7 +16,6 @@
     static private void WriteOutputFile(Graph graph){
         string currentDir = System.IO.Directory.GetCurrentDirectory();
         string dir = currentDir + "\\Output\\";
-        Console.WriteLine(dir);
         if(!Directory.Exists(dir)){ // If the directory does not exist, it creates it
             Directory.CreateDirectory(dir);
         }

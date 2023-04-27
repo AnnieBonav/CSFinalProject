@@ -76,7 +76,7 @@ class DijkstrasAlgorithm{
 
     public string PrintInformation(double[,] information, int sourceNode, int nodesNumber){
         // Console.WriteLine("Selected source Node: " + sourceNode + "\n");
-        string outputString = new String("Selected source Node: " + sourceNode);
+        string outputString = new String("Selected source Node: " + sourceNode + ",");
         for(int i = 0; i < nodesNumber; i ++){ // 3 is the length of the amount of info stored // _information.Length is 3 * amount of nodes
             // Console.WriteLine(letters[i] + " Distance: " + information[0, i].ToString() + "  Last node: " + information[1, i].ToString() + ",");
             outputString = outputString + letters[i] + " Distance: " + information[0, i].ToString() + "  Last node: " + information[1, i].ToString() + ",";
