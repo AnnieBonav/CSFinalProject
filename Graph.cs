@@ -80,59 +80,33 @@ class Graph{
         get{ return _nodesNumber; }
     }
 
-    private int MinNodeDist(int selectedNode){ // slectedNode is the node from
+    private int MinNodeDist(){ // slectedNode is the node from
+        Console.WriteLine("Minimum");
         int minDistNode = -1;
-        double minimumDistance = -1; // Unchecked
+        double minimumDistance = double.PositiveInfinity;
         for(int node = 0; node < _nodesNumber; node ++){ // Go through all of the nodes, to find which ones has the minimum accumulated distance
+            if(_visitedNodes.Contains(node)){
+                Console.WriteLine("Contains");
+                continue;
+
+            }
             double dist = _information[0, node];
-            
-            // If the minimu distance is unchecked and there is a connectiion between our selected node and the checked node (which means the distance is not 0)
-            // then I want to turn the minimumDistance into the distance between the selected node and the checked node (dist) is NOT 
-            // and the minDistNode iwll be the currently checked node.
-            // If this is false, I want to discard the checked node
-            // EXCEPT (or) the minimu distance is not -1, and the currently checked distance (dist) is NOT 0 (so there is a connection) AND the dist is
-            // Smaller than the current minimum distance. THEN I also want to make the minimu distance the current dist and the minNode the
-            // Currently checked node.
-            if( (minimumDistance == -1 && dist != 0) || (minimumDistance != -1 && dist !=0 && dist < minimumDistance)){
-                //Console.WriteLine($"Minimum Distance: {minimumDistance}, Dist: {dist}, Node: {node}");
+            if(dist < minimumDistance){
+                Console.WriteLine("Is lower");
                 minimumDistance = dist;
                 minDistNode = node;
             }
+            /*double dist = _transposedMatrix[selectedNode, node];
+            Console.WriteLine($"Distance {node} = {dist}");
+            if(dist != 0 && dist<minimumDistance){ // If there is a connection (dist is not 0) and the distance is smaller than the minimum distance, then the minimu distance is the distance and the node is this chacked node
+                Console.WriteLine($"Minimum Distance: {minimumDistance}, Dist: {dist}, Node: {node}");
+                minimumDistance = dist;
+                minDistNode = node;
+            }*/
         }
-
-
+        Console.WriteLine($"MIN DIST NODE: {minDistNode}");
         return minDistNode;
-    } 
-
-    /*
-    private int MoreAlgorithm(int selectedNode){ // slectedNode is the node from
-        int minDistNode = 0;
-        for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes, to find which ones the selectedNode is connected to
-            int dist = _transposedMatrix[selectedNode,node]; // The distance is the current info from the selectedNode to the checked Node. If they are connected, the distance will not be 0
-            
-            if(_transposedMatrix[0,node] != 0){ // If the selected node connects to another one, we check them
-                int newDistance = _information[1, selectedNode] + dist; // The new distance will be the information on the current node's accumulated distance (which is the current information on the distance column of the information, and the selected node) plus the distance between the selected node and the checked node
-                int currentDistance = _information[1, node]; // the Current accumulated distance to the TO node. Will be -1 when we start, and can change of a shorter path is ofund
-
-                if( currentDistance == -1 || newDistance < currentDistance){ // We change the information of the current Distance of getting to the node to the accumulated Distance plus the current edge's Distance ONLY if this would be smaller than the current saved distance and the currently saved distance is not -1 (which would make it infinity)
-                    _information[1, node] = newDistance;
-                    _information[2,node] = selectedNode; // Change the last node before this node to the current node we are going from // TODO: Change so that it does not only use the source node
-                    
-                    // Find new node
-                    if(newDistance < leastDistance){
-                        leastDistance = newDistance;
-                        nextNode = node;
-                    }
-                } 
-                
-                Console.WriteLine($"Column: {0} NodeNumber: {node} Value: {edgeDistance}");
-            }
-            // if(node == _sourceNode) continue; // The distance between source node and the soucr node is 0
-        }
-
-
-        return minDistNode;
-    }*/
+    }
 
     public void Algorithm(){
         // Initialize values
@@ -151,8 +125,8 @@ class Graph{
 
         while(_unvisitedNodes.Count >= 0){ // While there are nodes to visit
             Console.WriteLine(_unvisitedNodes.Count);
-            int minDistNode = MinNodeDist(_sourceNode);
-            //Console.WriteLine($"MIN DIST NODE: {minDistNode}");
+            int minDistNode = MinNodeDist();
+            Console.WriteLine($"MIN DIST NODE: {minDistNode}");
             
             for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes, to find which ones the selected node (which is the min node) is connected to
                 int dist = _transposedMatrix[minDistNode,node]; // The distance is the current info from the minNode to the checked Node. If they are connected, the distance will not be 0
@@ -171,39 +145,6 @@ class Graph{
             _visitedNodes.Add(minDistNode);
             PrintNodeStatus();
         }
-
-        /*
-
-        int selectedNode = _sourceNode;
-        int nextNode; // Determined by which one has the smaller weight after checking all of the current nodes possibilities
-        int leastDistance; // The currently checked node with the least distance. I save it so I know which will be the next node
-        for(int node = 0; node < _nodesNumber; node ++){ /// Go through all of the nodes
-            int edgeDistance = _transposedMatrix[0,node]; // TODO: Change 0 so it is the currently looked at node
-            
-            if(_transposedMatrix[0,node] != 0){ // If the selected node connects to another one, we check them
-                int newDistance = accumulatedDistance + edgeDistance;
-                int currentDistance = _information[1, node];
-
-                if( currentDistance == -1 || newDistance < currentDistance){ // We change the information of the current Distance of getting to the node to the accumulated Distance plus the current edge's Distance ONLY if this would be smaller than the current saved distance and the currently saved distance is not -1 (which would make it infinity)
-                    _information[1, node] = newDistance;
-                    _information[2,node] = selectedNode; // Change the last node before this node to the current node we are going from // TODO: Change so that it does not only use the source node
-                    if(newDistance < leastDistance){
-                        leastDistance = newDistance;
-                        nextNode = node;
-                    }
-                } 
-                
-                Console.WriteLine($"Column: {0} NodeNumber: {node} Value: {edgeDistance}");
-            }
-            // if(node == _sourceNode) continue; // The distance between source node and the soucr node is 0
-        }
-
-        _unvisitedNodes.Remove(selectedNode); // TOOD: Change to currently looked at node
-        _visitedNodes.Add(selectedNode); // TODO: Same
-
-        */ 
-        // CHECK WHICH NODE TO GO
-
 
         PrintInformation();
         PrintNodeStatus();

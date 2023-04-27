@@ -13,8 +13,9 @@ class Program{
     static void Main(string[] args){
         // FileName, nodesAmount, SourceNode
         // dotnet run TestMatrix.txt 5 0
-        _sourceNode = int.Parse(args[2]);
-        Graph testGraph = new Graph(args[0], int.Parse(args[1]), _sourceNode);
+        //_sourceNode = int.Parse(args[2]);
+        _sourceNode = 0;
+        Graph testGraph = new Graph("TestMatrix.txt", 5, _sourceNode);
         testGraph.Algorithm();
     }
 
