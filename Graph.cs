@@ -1,4 +1,9 @@
 class Graph{
+    private string _name = "";
+    public string Name{
+        get { return _name; }
+        set { _name = value; }
+    }
     private int _nodesNumber = -1;
     private int _sourceNode = -1;
 
@@ -33,10 +38,11 @@ class Graph{
         _visitedNodes.Add(node);
     }
 
-    public Graph(int[,] generatedMatrix, int nodesNumber, int sourceNode){ // TODO: Generated unvisited nodes 
+    public Graph(int[,] generatedMatrix, int nodesNumber, int sourceNode, string name){ // TODO: Generated unvisited nodes 
         _matrix = generatedMatrix;
         _nodesNumber = nodesNumber;
         _sourceNode = sourceNode;
+        _name = name;
 
         _information = new double[2, _nodesNumber];
         InitializeUnvisitedNodes();

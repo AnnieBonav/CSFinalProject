@@ -3,14 +3,35 @@
     static void Main(string[] args){
         algorithm = new DijkstrasAlgorithm();
         int[,] generatedMatrixInput = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
-        int[,] generatedMatrix = ReadMatrixInput("OtherExample.txt", 9, 0);
+        int[,] generatedMatrix = ReadMatrixInput("OtherExample.txt", 9, 0); // TODO: Get node numbers automatically
 
-        algorithm.CreateGraph(generatedMatrixInput, int.Parse(args[1]), int.Parse(args[2]));
-        algorithm.CreateGraph(generatedMatrix, 9, 0);
+        algorithm.CreateGraph(generatedMatrixInput, int.Parse(args[1]), int.Parse(args[2]), "InputGraph");
+        algorithm.CreateGraph(generatedMatrix, 9, 0, "SuperCoolGraph");
+
+        WriteOutputFile(algorithm.GetGraph(0));
+        WriteOutputFile(algorithm.GetGraph(1));
+        
+    }
+
+    static private void WriteOutputFile(Graph graph){
+        string currentDir = System.IO.Directory.GetCurrentDirectory();
+        string dir = currentDir + "\\Output\\";
+        Console.WriteLine(dir);
+        if(!Directory.Exists(dir)){ // If the directory does not exist, it creates it
+            Directory.CreateDirectory(dir);
+        }
+
+        StreamWriter stream = new StreamWriter(new String(dir + graph.Name + "Output.txt"));
+        string outputString = algorithm.PrintInformation(graph.Information, graph.SourceNode, graph.NodesNumber);
+        string[] outputArray = outputString.Split(",");
+        foreach(string row in outputArray){
+            stream.WriteLine(row);
+        }
+        stream.Close();
     }
 
     static private int[,] ReadMatrixInput(string fileName, int nodesNumber, int sourceNode){
-        StreamReader stream = new StreamReader(fileName);
+        StreamReader stream = new StreamReader("./Input/" + fileName);
 
         string? rowString;
         string[] characters;
@@ -27,12 +48,4 @@
         }
         return generatedMatrix;
     }
-
-    // static private void TransposeMatrix(){
-    //     for(int row = 0; row < _nodesNumber; row ++){
-    //         for(int column = 0; column < _nodesNumber; column ++){
-    //             _transposedMatrix[column, row] = _generatedMatrix[row, column];
-    //         }
-    //     }
-    // }
 }

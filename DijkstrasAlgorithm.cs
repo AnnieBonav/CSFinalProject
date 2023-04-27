@@ -2,12 +2,15 @@
 
 class DijkstrasAlgorithm{
     private string[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"}; // JUst dont save here
+    private List<Graph> graphs = new List<Graph>();
 
-    private Graph? graph;
+    public Graph GetGraph(int index){
+        return graphs[index];
+    }
 
-    public void CreateGraph(int[,] generatedMatrix, int nodesNumber, int sourceNode){
-        graph = new Graph(generatedMatrix, nodesNumber, sourceNode);
-        SolveAlgorithm(graph);
+    public void CreateGraph(int[,] generatedMatrix, int nodesNumber, int sourceNode, string name){
+        graphs.Add(new Graph(generatedMatrix, nodesNumber, sourceNode, name));
+        SolveAlgorithm(graphs.Last());
     }
 
     private int MinNodeDist(double[,] information, int nodesNumber, List<int> visitedNodes){
@@ -66,16 +69,19 @@ class DijkstrasAlgorithm{
             selectedGraph.VisitNode(minDistNode);
         }
 
-        Console.WriteLine("FINAL RESULTS");
-        PrintInformation(information, sourceNode, nodesNumber);
-        PrintNodeStatus(visitedNodes, unvisitedNodes);
+        // Console.WriteLine("FINAL RESULTS");
+        // PrintInformation(information, sourceNode, nodesNumber);
+        // PrintNodeStatus(visitedNodes, unvisitedNodes);
     }
 
-    private void PrintInformation(double[,] information, int sourceNode, int nodesNumber){
-        Console.WriteLine("Selected source Node: " + sourceNode);
+    public string PrintInformation(double[,] information, int sourceNode, int nodesNumber){
+        // Console.WriteLine("Selected source Node: " + sourceNode + "\n");
+        string outputString = new String("Selected source Node: " + sourceNode);
         for(int i = 0; i < nodesNumber; i ++){ // 3 is the length of the amount of info stored // _information.Length is 3 * amount of nodes
-            Console.WriteLine(letters[i] + " Distance: " + information[0, i].ToString() + "  Last node: " + information[1, i].ToString());
+            // Console.WriteLine(letters[i] + " Distance: " + information[0, i].ToString() + "  Last node: " + information[1, i].ToString() + ",");
+            outputString = outputString + letters[i] + " Distance: " + information[0, i].ToString() + "  Last node: " + information[1, i].ToString() + ",";
         }
+        return outputString;
     }
 
     private void PrintNodeStatus(List<int> visitedNodes, List<int> unvisitedNodes){
