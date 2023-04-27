@@ -96,13 +96,6 @@ class Graph{
                 minimumDistance = dist;
                 minDistNode = node;
             }
-            /*double dist = _transposedMatrix[selectedNode, node];
-            Console.WriteLine($"Distance {node} = {dist}");
-            if(dist != 0 && dist<minimumDistance){ // If there is a connection (dist is not 0) and the distance is smaller than the minimum distance, then the minimu distance is the distance and the node is this chacked node
-                Console.WriteLine($"Minimum Distance: {minimumDistance}, Dist: {dist}, Node: {node}");
-                minimumDistance = dist;
-                minDistNode = node;
-            }*/
         }
         Console.WriteLine($"MIN DIST NODE: {minDistNode}");
         return minDistNode;
