@@ -2,9 +2,11 @@
     static private DijkstrasAlgorithm algorithm = new DijkstrasAlgorithm();
     static void Main(string[] args){
         algorithm = new DijkstrasAlgorithm();
-        int[,] generatedMatrix = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
+        int[,] generatedMatrixInput = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
+        int[,] generatedMatrix = ReadMatrixInput("OtherExample.txt", 9, 0);
 
-        algorithm.CreateGraph(generatedMatrix, int.Parse(args[1]), int.Parse(args[2]));
+        algorithm.CreateGraph(generatedMatrixInput, int.Parse(args[1]), int.Parse(args[2]));
+        algorithm.CreateGraph(generatedMatrix, 9, 0);
     }
 
     static private int[,] ReadMatrixInput(string fileName, int nodesNumber, int sourceNode){
