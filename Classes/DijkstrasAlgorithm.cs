@@ -1,5 +1,4 @@
 class DijkstrasAlgorithm{
-    private string[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"}; // JUst dont save here
     private List<Graph> graphs = new List<Graph>();
 
     public Graph GetGraph(int index){
@@ -81,7 +80,7 @@ class DijkstrasAlgorithm{
                 if(i != sourceNode) path = " | Path: " + path + i;
                 else path = " | Path: " + path;
             }
-            outputString = outputString + letters[i] + " Distance: " + information[i].Distance.ToString() + path + ",";
+            outputString = outputString + " Distance: " + information[i].Distance.ToString() + path + ",";
         }
         return outputString;
     }
