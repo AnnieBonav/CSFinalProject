@@ -59,8 +59,8 @@ class DijkstrasAlgorithm{
 
                     if(newDistance < currentDistance){ // We change the information of the current Distance of getting to the node to the accumulated Distance plus the current edge's Distance ONLY if this would be smaller than the current saved distance and the currently saved distance
                         information[node].Distance = newDistance;
-                        information[node].NodesPath = information[node].NodesPath + " -> " + minDistNode.ToString(); // Change the last node before this node to the current node we are going from
-                    }
+                        information[node].NodesPath = information[node].NodesPath + minDistNode.ToString() + " -> "; // Change the last node before this node to the current node we are going from
+                    }// TODO: Add the last node
                 }
             }
             selectedGraph.VisitNode(minDistNode);
@@ -74,7 +74,14 @@ class DijkstrasAlgorithm{
     public string PrintInformation(Information[] information, int sourceNode, int nodesNumber){
         string outputString = new String("Selected source Node: " + sourceNode + ",");
         for(int i = 0; i < nodesNumber; i ++){
-            outputString = outputString + letters[i] + " Distance: " + information[i].Distance.ToString() + "  Last node: " + information[i].NodesPath + ",";
+            string path = information[i].NodesPath;
+            if(path == ""){
+                path = " | No way of getting there";
+            }else{
+                if(i != sourceNode) path = " | Path: " + path + i;
+                else path = " | Path: " + path;
+            }
+            outputString = outputString + letters[i] + " Distance: " + information[i].Distance.ToString() + path + ",";
         }
         return outputString;
     }
