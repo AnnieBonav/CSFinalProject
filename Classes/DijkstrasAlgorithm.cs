@@ -1,18 +1,23 @@
 class DijkstrasAlgorithm{
-    private List<Graph> graphs = new List<Graph>();
+    private List<Graph> _graphs = new List<Graph>();
 
+    // Gets a graph based on a specific index. Does not validate for existance!
     public Graph GetGraph(int index){
-        return graphs[index];
+        return _graphs[index];
     }
 
+    // Creates a graph and adds it to the graph list, at the end
     public void CreateGraph(int[,] generatedMatrix, int nodesNumber, int sourceNode, string name){
-        graphs.Add(new Graph(generatedMatrix, nodesNumber, sourceNode, name));
-        SolveAlgorithm(graphs.Last());
+        _graphs.Add(new Graph(generatedMatrix, nodesNumber, sourceNode, name));
+        SolveAlgorithm(_graphs.Last());
     }
 
+    // Is the base of the algorithm. Returns the int of the node with the least accumulated distance, that is NOT in the visited
+    // nodes. If no node qualifies, it returns a -1. This helps check whenever there are no more reachable nodes.
+    // If this was implemented as a Priority Queue (the data is sorted), the performance would be better.
     private int MinNodeDist(Information[] information, int nodesNumber, List<int> visitedNodes){
-        int minDistNode = -1; // I make it undefined, so if no nodes are found I return -1 and I can work with that
-        double minDistance = double.PositiveInfinity; // This will always be larger than the distance we are checking
+        int minDistNode = -1; // -1 represents undefined
+        double minDistance = double.PositiveInfinity; // Defined as the biggest possible distance, susing double to make the most out of Positive Infinity
         for(int node = 0; node < nodesNumber; node ++){ // Go through all of the nodes, trying to find the one that has not been visited, with the lowest distance
             if(visitedNodes.Contains(node)){ // If the node has been visited, it is discarded
                 continue;
@@ -26,7 +31,9 @@ class DijkstrasAlgorithm{
         return minDistNode;
     }
 
+    // Is the implementation of Dijkstra's algorithm, takes the selected as parameter, so it can be reused for n amount of graphs
     public void SolveAlgorithm(Graph selectedGraph){
+        // Starts by getting all the data form the selected graph, so we do not need to access the information constantly
         int nodesNumber = selectedGraph.NodesNumber;
         int sourceNode = selectedGraph.SourceNode;
         int[,] matrix = selectedGraph.Matrix;
@@ -34,6 +41,7 @@ class DijkstrasAlgorithm{
         List<int> unvisitedNodes = selectedGraph.UnvisitedNodes;
         List<int> visitedNodes = selectedGraph.VisitedNodes;
 
+        // The information from the current graph is initialized
         for(int i = 0; i < nodesNumber; i ++){
             if(i != sourceNode){
                 information[i].Distance = double.PositiveInfinity;
@@ -43,9 +51,10 @@ class DijkstrasAlgorithm{
             }
         }
 
+        // The main loop of the algorithm starts
         while(unvisitedNodes.Count > 0){ // Do while there are nodes to still visit
             int minDistNode = MinNodeDist(information, nodesNumber, visitedNodes);
-            if(minDistNode == -1){ // This means all of the remaining nodes cannot be reached, so the weights stay the same and I just ened my program
+            if(minDistNode == -1){ // Getting -1 means that all of the remaining nodes cannot be reached, so the weights stay the same and I just ened my program
                 break;
             }
             
@@ -70,10 +79,12 @@ class DijkstrasAlgorithm{
         // PrintNodeStatus(visitedNodes, unvisitedNodes);
     }
 
-    public string PrintInformation(Information[] information, int sourceNode, int nodesNumber){
+    // returns a string that can be used for outputing the final information (distances and paths) to a file.
+    public string GetInformation(Information[] information, int sourceNode, int nodesNumber){
         string outputString = new String("Selected source Node: " + sourceNode + ",");
         for(int i = 0; i < nodesNumber; i ++){
             string path = information[i].NodesPath;
+            // If the path is empty, then there is no way of getting to that node, so the user should know
             if(path == ""){
                 path = " | No way of getting there";
             }else{
@@ -85,6 +96,7 @@ class DijkstrasAlgorithm{
         return outputString;
     }
 
+    // Prints which are the visited and the unvisited nodes. Helps to debug
     private void PrintNodeStatus(List<int> visitedNodes, List<int> unvisitedNodes){
         string visitedNodesString = "";
         string unvisitedNodesString = "";

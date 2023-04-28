@@ -3,11 +3,14 @@
     static void Main(string[] args){
         algorithm = new DijkstrasAlgorithm();
         // int[,] generatedMatrixInput = ReadMatrixInput("input.txt", 5, 0); // Uncomment for debug
-        int[,] generatedMatrixInput = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2])); // Comment for debug
+        if(args.Length >= 3){
+            int[,] generatedMatrixInput = ReadMatrixInput(args[0], int.Parse(args[1]), int.Parse(args[2]));
+            algorithm.CreateGraph(generatedMatrixInput, int.Parse(args[1]), int.Parse(args[2]), "");
+        }else{
+            int[,] generatedMatrixInput = ReadMatrixInput("input.txt", 5, 0);
+            algorithm.CreateGraph(generatedMatrixInput, 5, 0, "");
+        }
         int[,] generatedMatrix = ReadMatrixInput("OtherExample.txt", 9, 0); // TODO: Get node numbers automatically
-
-        // algorithm.CreateGraph(generatedMatrixInput,5, 0, "InputGraph"); // Uncomment for debug
-        algorithm.CreateGraph(generatedMatrixInput, int.Parse(args[1]), int.Parse(args[2]), ""); // Comment for debug
         algorithm.CreateGraph(generatedMatrix, 9, 0, "SuperCoolGraph");
 
         WriteOutputFile(algorithm.GetGraph(0));
@@ -23,7 +26,7 @@
         }
 
         StreamWriter stream = new StreamWriter(new String(dir + graph.Name + "_output.txt"));
-        string outputString = algorithm.PrintInformation(graph.Information, graph.SourceNode, graph.NodesNumber);
+        string outputString = algorithm.GetInformation(graph.Information, graph.SourceNode, graph.NodesNumber);
         string[] outputArray = outputString.Split(",");
         foreach(string row in outputArray){
             stream.WriteLine(row);

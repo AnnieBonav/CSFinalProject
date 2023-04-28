@@ -1,5 +1,6 @@
 class Graph{
     private string _name = "";
+    // Initializing as -1 helps with debugging to check that values are intialized
     private int _nodesNumber = -1;
     private int _sourceNode = -1;
     private Information[] _information;
@@ -48,17 +49,20 @@ class Graph{
         InitializeUnvisitedNodes();
     }
 
+    // Abstracts having to remove and add a node to the different lists
     public void VisitNode(int node){ // Used to remove an unvisited node and add it
         _unvisitedNodes.Remove(node);
         _visitedNodes.Add(node);
     }
 
+    // Adds an n amount of numbers to the unvisted Nodes, where n is the amount of nodes the matrix has
     private void InitializeUnvisitedNodes(){
         for(int i = 0; i < _nodesNumber; i ++){
             _unvisitedNodes.Add(i);
         }
     }
     
+    // Overrides so that one can print the graph using Console.WriteLine and the object as an argument
     public override string ToString()
     {
         string rowString = "";
